@@ -1,0 +1,95 @@
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{fullpage}
+\usepackage[vlined,ruled]{algorithm2e}
+\usepackage{amssymb}
+\usepackage{amsmath,alltt}
+
+\newenvironment{algo}[1]{%
+\vspace{1cm}
+\renewcommand{\algorithmcfname}{Algorithm}
+\begin{algorithm}[H]
+\label{#1}
+\caption{#1}
+\SetKwInOut{Constant}{Constant}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKwInOut{Global}{Global}
+\SetKwInOut{Local}{Local}
+}{%
+\end{algorithm}
+\vspace{1cm}
+}
+
+
+\newcommand{\true}{\mbox{\it true}}
+\newcommand{\false}{\mbox{\it false}}
+\newcommand{\Boolean}{\{\true,\false\}}
+\newcommand{\Integer}{\mathbb{Z}}
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\Real}{\mathbb{R}}
+
+\begin{document}
+\title{Projet de compilation}
+\maketitle
+
+Seul les algorithmes sont pris en compte pour la compilation. Tout le
+reste du document \LaTeX \; est ignor\'e. Le point d'entr\'ee est
+l'algorithme \textbf{main}.
+
+\begin{algo}{factorielle}
+\Input{$n \in \Integer$}
+\Output{$accu \in \Integer$}
+\Global{$\emptyset$}
+\Local{$\emptyset$}
+\BlankLine
+  $accu \leftarrow 1$ \;
+  \While{$n \neq 0$} {
+    $accu \leftarrow n \times accu$ \;
+    $n \leftarrow n - 1$ \;
+  }
+\end{algo}
+
+Du blabla pas pris en compte dans la compilation...
+
+\begin{algo}{factorielleRec}
+\Input{$n \in \Integer$}
+\Output{$accu \in \Integer$}
+\Global{$\emptyset$}
+\Local{$\emptyset$}
+\BlankLine
+  \eIf{$n \neq 0$}{$accu \leftarrow \mbox{factorielleRec($n-1$)} \times n$\;}{$accu \leftarrow 1$\;}
+\end{algo}
+
+\begin{algo}{vectorAdd128}
+\Input{$A \in \Integer^{128}, B \in \Integer^{128}$}
+\Output{$C \in \Integer^{128}$}
+\Global{$\emptyset$}
+\Local{$i \in \Integer$}
+\BlankLine
+  \For{$i \leftarrow 0$ \KwTo $127$} {
+    $C_{i} \leftarrow A_{i} + B_{i}$ \;
+  }
+\end{algo}
+
+Du blabla pas pris en compte dans la compilation...
+
+\begin{algo}{main}
+\Input{$\emptyset$}
+\Output{$b \in \Boolean$}
+\Global{$\emptyset$}
+\Local{$fac \in \Integer$}
+\BlankLine
+$b \leftarrow \false$ \;
+\eIf{$b \vee \true$}{
+  $fac \leftarrow \mbox{factorielle($10 \times 1$)}$ \;
+  $\mbox{printInt($fac$)}$ \;
+}{$\mbox{printInt($-1$)}$ \;}
+\end{algo}
+
+
+
+\end{document}
+
