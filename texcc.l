@@ -54,23 +54,23 @@ bool      "\\true"|"\\false"
                     }
 <texsci>{int}       {
                       printf("INT ");
-                      yylval = atoi(yytext);
+                      yylval.ivalue = atoi(yytext);
                       return INT;
                     }
 <texsci>{float}     {
                       printf("FLOAT ");
-                      yylval = atof(yytext);
+                      yylval.fvalue = atof(yytext);
                       return FLOAT;
                     }
 <texsci>{bool}      {
                       printf("BOOL ");
                       if(strcmp(yytext, "\\true") == 0)
                         {
-                          yylval = 1;
+                          yylval.ivalue = 1;
                         }
                          else
                         {
-                          yylval = 0;
+                          yylval.ivalue = 0;
                         }
                       return BOOL;
                    }

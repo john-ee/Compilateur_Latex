@@ -2,7 +2,7 @@ CC = gcc
 LEX = lex
 YACC = yacc -d
 CFLAGS = -O2 -Wall -g
-LDFLAGS = -ly -ll # Linux: -lfl / OSX: -ll
+LDFLAGS = -ly -lfl # Linux: -lfl / OSX: -ll
 EXEC = texcc
 SRC = 
 OBJ = $(SRC:.c=.o)

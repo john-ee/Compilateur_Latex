@@ -12,12 +12,15 @@
 %}
 
 %union {
+  int ivalue;
+  float fvalue;
   char* name;
 }
 
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE
 %token INPUT OUTPUT LOCAL
 %token INTEGER BOOLEAN REAL LEFTARROW IN
+%token INT BOOL FLOAT
 %token PLUS FOIS AFFECTATION
 %token <name> ID 
 
@@ -29,7 +32,7 @@ algorithm_list:
   ;
 
 algorithm:
-    TEXSCI_BEGIN '{' ID '}' liste_declarations BLANKLINE liste_instructions TEXSCI_END
+    TEXSCI_BEGIN '{' ID '}' declarations BLANKLINE liste_instructions TEXSCI_END
     {
       fprintf(stderr, "[texcc] info: algorithm \"%s\" parsed\n", $3);
       free($3);
@@ -92,41 +95,53 @@ expr_f:
     }
   ;
 
+valeur:
+    INT
+
+  | BOOL
+
+  | FLOAT
+
+  ;
 
 
-liste_declarations:
+
+declarations:
     liste_input liste_output liste_local
-    ;
-
-liste_input:
-    liste_input declaration
-
-  | declaration
 
   |
+  
+  ;
 
+liste_input:
+    INPUT '{' '$' liste_declarations '$' '}'
   ;
 
 liste_output:
-    liste_output declaration
-
-  | declaration
-
-  |
-
+    OUTPUT '{' '$' liste_declarations '$' '}'
   ;
 
 liste_local:
-    liste_local declaration
+    LOCAL '{' '$' liste_declarations '$' '}'
+  ;
+
+liste_declarations:
+    liste_declarations declaration
 
   | declaration
-
-  |
-
   ;
 
 declaration:
-  ID IN type
+    ID IN type
+
+  ;
+
+type:
+    INTEGER
+
+  | REAL
+
+  | BOOLEAN
 
   ;
 
