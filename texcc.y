@@ -18,6 +18,7 @@
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE
 %token INPUT OUTPUT LOCAL
 %token INTEGER BOOLEAN REAL LEFTARROW IN
+%token PLUS FOIS AFFECTATION
 %token <name> ID 
 
 %%
@@ -28,12 +29,113 @@ algorithm_list:
   ;
 
 algorithm:
-    TEXSCI_BEGIN '{' ID '}' BLANKLINE TEXSCI_END
+    TEXSCI_BEGIN '{' ID '}' liste_declarations BLANKLINE liste_instructions TEXSCI_END
     {
       fprintf(stderr, "[texcc] info: algorithm \"%s\" parsed\n", $3);
       free($3);
     }
   ;
+
+liste_instructions:
+    liste_instructions instruction
+    {
+      printf("Liste d'instructions\n");
+    }
+
+  | instruction
+    {
+      printf("Liste d'instructions\n");
+    }
+  ;
+
+instruction:
+    expr_e
+    {
+      printf("Expression arithmétique\n");
+    }
+
+  | affectation
+    {
+      printf("Affectation\n");
+    }
+
+  |
+  ;
+
+expr_e:
+    expr_t
+    {
+      printf("Expression arithmétique\n");
+    }
+
+  | expr_t PLUS expr_e
+    {
+      printf("Addition\n");
+    }
+  ;
+
+expr_t:
+    expr_f
+    {
+      printf("Expression arithmétique\n");
+    }
+
+  | expr_t FOIS expr_f
+    {
+      printf("Multiplication\n");
+    }
+
+
+expr_f:
+    valeur
+    {
+      printf("Affectation\n");
+    }
+
+  | '(' expr_e ')'
+    {
+      printf("Affectation\n");
+    }
+  ;
+
+
+
+liste_declarations:
+    liste_input liste_output liste_local
+    ;
+
+liste_input:
+    liste_input declaration
+
+  | declaration
+
+  |
+
+  ;
+
+liste_output:
+    liste_output declaration
+
+  | declaration
+
+  |
+
+  ;
+
+liste_local:
+    liste_local declaration
+
+  | declaration
+
+  |
+
+  ;
+
+declaration:
+  ID IN type
+
+  ;
+
 
 %%
 
