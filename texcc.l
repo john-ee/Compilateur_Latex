@@ -32,13 +32,49 @@ bool      "\\true"|"\\false"
                     }
 <texsci>{end}       { BEGIN(INITIAL); // Reset to default scanning mode
                       return TEXSCI_END;
-		    }
+		                }
+
+<texsci>{blankline} { printf("BLANKLINE"); return BLANKLINE; }
+<texsci>[{}]        { return yytext[0]; }
+[\n]                { }
+
+<texsci>{input}     { printf("INPUT");  return INPUT; }
+<texsci>{output}    { printf("OUTPUT");  return OUTPUT; }
+<texsci>{local}     { printf("LOCAL"); return LOCAL; }
+
+<texsci>{integer}   { printf("INTEGER");  return INTEGER; }
+<texsci>{boolean}   { printf("BOOLEAN");  return BOOLEAN; }
+<texsci>{real}      { printf("REAL"); return REAL; }
+
+<texsci>{leftarrow} { printf("LEFTARROW"); return LEFTARROW; }
+<texsci>{in}        { printf("IN");  return IN; }
+
 <texsci>{id}        { yylval.name = strdup(yytext);
                       return ID;
                     }
-<texsci>{blankline} { return BLANKLINE; }
-<texsci>[{}]        { return yytext[0]; }
-[\n]                { }
+<texsci>{int}       {
+                      printf("INT ");
+                      yylval = atoi(yytext);
+                      return INT;
+                    }
+<texsci>{float}     {
+                      printf("FLOAT ");
+                      yylval = atof(yytext);
+                      return FLOAT;
+                    }
+<texsci>{bool}      {
+                      printf("BOOL ");
+                      if(strcmp(yytext, "\\true") == 0)
+                        {
+                          yylval = 1;
+                        }
+                         else
+                        {
+                          yylval = 0;
+                        }
+                      return BOOL;
+                   }
+
 .                   { }
 
 %%
