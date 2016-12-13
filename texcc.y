@@ -53,12 +53,6 @@ instruction:
     {
       printf("Expression arithmétique\n");
     }
-
-  | affectation
-    {
-      printf("Affectation\n");
-    }
-
   |
   ;
 
