@@ -9,7 +9,21 @@
 begin     "\\begin{texsci}"
 end       "\\end{texsci}"
 blankline "\\BlankLine"
+input     "\\Input"
+output    "\\Output"
+local     "\\Local"
+
+integer   "\\Integer"
+boolean   "\\Boolean"
+real      "\\Real"
+
+leftarrow "\\leftarrow"
+in        "\\in"
+
 id        [a-zA-Z_][a-zA-Z0-9_]*
+int       [0-9]+
+float     [0-9]+.[0-9]+
+bool      "\\true"|"\\false"
 
 %%
 
@@ -29,7 +43,7 @@ id        [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
 
-/**
+/*
  * texcc_lexer_free function:
  * this function frees the memory allocated for the lexer. It frees
  * flex's buffer (it supposes there is only one buffer) since flex does
