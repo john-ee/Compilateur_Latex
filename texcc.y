@@ -16,13 +16,16 @@
   int ivalue;
   float fvalue;
   char* name;
+  char* string;
 }
 
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
-%token INPUT OUTPUT LOCAL
+%token INPUT OUTPUT LOCAL MBOX
 %token INTEGER BOOLEAN REAL LEFTARROW IN
 %token INT BOOL FLOAT
 %token PLUS FOIS
+%token PRINTINT PRINTTEXT
+%token <string> STRING
 %token <name> ID 
 
 %%
@@ -43,12 +46,12 @@ algorithm:
 liste_instructions:
     liste_instructions instruction
     {
-      printf("Liste d'instructions\n");
+      printf("Liste d'instructions 1\n");
     }
 
   | instruction
     {
-      printf("Liste d'instructions\n");
+      printf("Liste d'instructions 2\n");
     }
   ;
 
@@ -56,6 +59,25 @@ instruction:
      '$' ID LEFTARROW expr_e '$' RETOUR
     {
       printf("Affectation expression arithmetique\n");
+    }
+  | '$' MBOX '{' print '}' '$' RETOUR
+   {
+      printf("Appel de la fonction d'affichage\n");
+   }
+
+  |
+  ;
+
+print:
+     PRINTINT '(' '$' ID '$' ')'
+    {
+      printf("affichage entier \n");
+    }
+
+  | PRINTTEXT '(' '$'  STRING  '$' ')'
+    {
+      printf("affichage d'un string \n");
+
     }
   |
   ;

@@ -12,6 +12,7 @@ blankline "\\BlankLine"
 input     "\\Input"
 output    "\\Output"
 local     "\\Local"
+mbox      "\\mbox"
 
 integer   "\\Integer"
 boolean   "\\Boolean"
@@ -20,6 +21,9 @@ real      "\\Real"
 leftarrow "\\leftarrow"
 in        "\\in"
 
+printint "printInt"
+printtext "printText"
+
 id        [a-zA-Z_][a-zA-Z0-9_]*
 int       -?[0-9]+
 float     -?[0-9]+.[0-9]+
@@ -27,6 +31,9 @@ bool      "\\true"|"\\false"
 
 dollar    "$"
 retour    "\\;"
+
+
+string "([^"]*)"
 
 %%
 
@@ -39,6 +46,7 @@ retour    "\\;"
 
 <texsci>{blankline} { printf("BLANKLINE"); return BLANKLINE; }
 <texsci>[{}]        { return yytext[0]; }
+<texsci>[()]        { return yytext[0]; }
 [\n]                { }
 
 <texsci>{input}     { printf("INPUT");  return INPUT; }
@@ -51,6 +59,21 @@ retour    "\\;"
 
 <texsci>{leftarrow} { printf("LEFTARROW"); return LEFTARROW; }
 <texsci>{in}        { printf("IN");  return IN; }
+
+<texsci>{dollar}   { return yytext[0]; }
+
+<texsci>{retour}   { return RETOUR; }
+
+<texsci>[+]        { return PLUS; }
+
+<texsci>[*]        { return FOIS; }
+
+<texsci>{mbox}     { return MBOX; }
+
+<texsci>{printint} { return PRINTINT; }
+<texsci>{printtext} { return PRINTTEXT; }
+
+<texsci>[,]        { return yytext[0]; }
 
 <texsci>{id}        { yylval.name = strdup(yytext);
                       return ID;
@@ -78,17 +101,7 @@ retour    "\\;"
                       return BOOL;
                     }
 
-<texsci>{dollar}   { return yytext[0]; }
-
-<texsci>{retour}   { return RETOUR; }
-
-<texsci>[+]        { return PLUS; }
-
-<texsci>[*]        { return FOIS; }
-
-<texsci>[,]        { return yytext[0]; }
-
-.                   { }
+.                  { }
 
 %%
 
