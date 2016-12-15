@@ -2,13 +2,11 @@
 
 /* TABLE DES SYMBOLES */
 
-typedef char name_t[8];
-
 struct symbol {
-  enum { NAME, CONSTANT } kind;
+  enum { INT, BOOL, FLOAT } kind;
     union {
-        name_t name;
-        long int value;
+        char* name;
+        char* value;
     } u;
 };
 

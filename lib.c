@@ -54,16 +54,28 @@ struct symbol * symtable_get(struct symtable * t, const char * id)
     return NULL;
 }
 
-struct symbol * symtable_put(struct symtable * t, const char * id) 
+struct symbol * symtable_put(struct symtable * t, const char * id, kind id_type) 
 {
     if(t->size==t->capacity)
       symtable_grow(t);
     struct symbol *s = &(t->symbols[t->size]);
-    s->kind = NAME;
+    s->kind = id_type;
     strcpy(s->u.name,id);
+    s->value = 0;
     ++ (t->size);
     return s;
 }
+
+struct symbol * symtable_update(struct symtable * t, const char * id, char *id_value) 
+{
+    if(t->size==t->capacity)
+      symtable_grow(t);
+    struct symbol *s = &(t->symbols[t->size]);
+    s->value = id_value;
+    ++ (t->size);
+    return s;
+}
+
 
 void symtable_dump(struct symtable * t)
 {
