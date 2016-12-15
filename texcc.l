@@ -33,7 +33,7 @@ dollar    "$"
 retour    "\\;"
 
 
-string "([^"]*)"
+string "([^"]*)" 
 
 %%
 
