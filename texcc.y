@@ -53,7 +53,7 @@ liste_instructions:
   ;
 
 instruction:
-     '$' ID LEFTARROW expr_e '$'
+     '$' ID LEFTARROW expr_e '$' RETOUR
     {
       printf("Affectation expression arithmetique\n");
     }
