@@ -94,6 +94,8 @@ expr_f:
     {
       printf("Affectation\n");
     }
+
+  | ID
   ;
 
 valeur:
@@ -109,9 +111,6 @@ valeur:
 
 declarations:
     liste_input liste_output liste_local
-
-  |
-  
   ;
 
 liste_input:
@@ -119,6 +118,8 @@ liste_input:
     {
       printf("REGLE INPUT\n");
     }
+
+  |
   ;
 
 liste_output:
@@ -126,6 +127,8 @@ liste_output:
     {
       printf("REGLE OUPUT\n");
     }
+
+  |
   ;
 
 liste_local:
@@ -133,6 +136,8 @@ liste_local:
     {
       printf("REGLE LOCAL\n");
     }
+
+  |
   ;
 
 liste_declarations:
