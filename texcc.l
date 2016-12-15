@@ -86,6 +86,8 @@ retour    "\\;"
 
 <texsci>[*]        { return FOIS; }
 
+<texsci>[,]        { return yytext[0]; }
+
 .                   { }
 
 %%

@@ -1,6 +1,7 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
+  #include "lib.h"
   #define TEXCC_ERROR_GENERAL 4
 
   void yyerror(char*);
@@ -115,24 +116,42 @@ declarations:
 
 liste_input:
     INPUT '{' '$' liste_declarations '$' '}'
+    {
+      printf("REGLE INPUT\n");
+    }
   ;
 
 liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
+    {
+      printf("REGLE OUPUT\n");
+    }
   ;
 
 liste_local:
     LOCAL '{' '$' liste_declarations '$' '}'
+    {
+      printf("REGLE LOCAL\n");
+    }
   ;
 
 liste_declarations:
-    liste_declarations declaration
+    liste_declarations ',' declaration
+    {
+      printf("REGLE LISTE DECLARATION\n");
+    }
 
   | declaration
+    {
+      printf("SECONDE REGLE DECLARATION\n");
+    }
   ;
 
 declaration:
     ID IN type
+    {
+      printf("REGLE DECLARATION\n");
+    }
 
   ;
 
