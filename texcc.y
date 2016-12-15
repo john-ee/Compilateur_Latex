@@ -17,11 +17,11 @@
   char* name;
 }
 
-%token TEXSCI_BEGIN TEXSCI_END BLANKLINE
+%token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token INPUT OUTPUT LOCAL
 %token INTEGER BOOLEAN REAL LEFTARROW IN
 %token INT BOOL FLOAT
-%token PLUS FOIS AFFECTATION
+%token PLUS FOIS
 %token <name> ID 
 
 %%
@@ -52,9 +52,9 @@ liste_instructions:
   ;
 
 instruction:
-    expr_e
+     '$' ID LEFTARROW expr_e '$'
     {
-      printf("Expression arithmétique\n");
+      printf("Affectation expression arithmetique\n");
     }
   |
   ;

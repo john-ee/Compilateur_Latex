@@ -21,9 +21,12 @@ leftarrow "\\leftarrow"
 in        "\\in"
 
 id        [a-zA-Z_][a-zA-Z0-9_]*
-int       [0-9]+
-float     [0-9]+.[0-9]+
+int       -?[0-9]+
+float     -?[0-9]+.[0-9]+
 bool      "\\true"|"\\false"
+
+dollar    "$"
+retour    "\\;"
 
 %%
 
@@ -73,7 +76,15 @@ bool      "\\true"|"\\false"
                           yylval.ivalue = 0;
                         }
                       return BOOL;
-                   }
+                    }
+
+<texsci>{dollar}   { return yytext[0]; }
+
+<texsci>{retour}   { return RETOUR; }
+
+<texsci>[+]        { return PLUS; }
+
+<texsci>[*]        { return FOIS; }
 
 .                   { }
 
