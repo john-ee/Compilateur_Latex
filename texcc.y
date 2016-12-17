@@ -7,7 +7,6 @@
 
   // Functions and global variables provided by Lex.
   int yylex();
-  void texcc_lexer_free();
   %}
 
 %union {

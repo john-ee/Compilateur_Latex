@@ -1,7 +1,6 @@
-
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include "texcc.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "texcc.h"
 
 int main(int argc, char* argv[]) {
   if (argc == 2) {
@@ -22,6 +21,5 @@ int main(int argc, char* argv[]) {
   code_dump(CODE);
   symtable_free(SYMTAB);
   code_free(CODE);
-  texcc_lexer_free();
   return EXIT_SUCCESS;
 }
