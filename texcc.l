@@ -2,6 +2,7 @@
   #include <stdlib.h>
   #include <string.h>
   #include "y.tab.h"
+  #include "lib.h"
 %}
 
 %s texsci

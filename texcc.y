@@ -1,15 +1,14 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
-  #define TEXCC_ERROR_GENERAL 4
+  #include "texcc.h"
 
-  void yyerror(char*);
+ extern void yyerror(const char * s);
 
   // Functions and global variables provided by Lex.
   int yylex();
   void texcc_lexer_free();
-  extern FILE* yyin;
-%}
+  %}
 
 %union {
   int ivalue;
@@ -192,20 +191,7 @@ type:
 
 
 %%
-
-int main(int argc, char* argv[]) {
-  if (argc == 2) {
-    if ((yyin = fopen(argv[1], "r")) == NULL) {
-      fprintf(stderr, "[texcc] error: unable to open file %s\n", argv[1]);
-      exit(TEXCC_ERROR_GENERAL);
-    }
-  } else {
-    fprintf(stderr, "[texcc] usage: %s input_file\n", argv[0]);
-    exit(TEXCC_ERROR_GENERAL);
-  }
-
-  yyparse();
-  fclose(yyin);
-  texcc_lexer_free();
-  return EXIT_SUCCESS;
+void yyerror(const char * s)
+{
+    fprintf(stderr,"%s\n",s);
 }
