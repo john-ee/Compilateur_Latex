@@ -33,7 +33,7 @@ dollar    "$"
 retour    "\\;"
 
 
-string "([^"]*)" 
+string \"(\\.|[^"])*\" 
 
 %%
 
@@ -100,6 +100,8 @@ string "([^"]*)"
                         }
                       return BOOL;
                     }
+
+<texsci>{string}    { return STRING; }
 
 .                  { }
 
