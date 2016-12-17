@@ -14,6 +14,9 @@
   float fvalue;
   char* name;
   char* string;
+  struct {
+      struct symbol * ptr;
+  } exprval;  
 }
 
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
@@ -24,6 +27,8 @@
 %token PRINTINT PRINTTEXT
 %token <string> STRING
 %token <name> ID 
+
+%type <exprval> expr_e expr_t expr_f
 
 %%
 
@@ -56,6 +61,10 @@ instruction:
      '$' ID LEFTARROW expr_e '$' RETOUR
     {
       printf("Affectation expression arithmetique\n");
+      struct symbol * id = symtable_get(SYMTAB,$2);
+      if ( id == NULL )
+          id = symtable_put(SYMTAB,$2);
+      gencode(CODE,COPY,id,$4.ptr,NULL);
     }
   | '$' MBOX '{' print '}' '$' RETOUR
    {
@@ -69,6 +78,13 @@ print:
      PRINTINT '(' '$' ID '$' ')'
     {
       printf("affichage entier \n");
+      struct symbol * id = symtable_get(SYMTAB,$4);
+      if ( id == NULL )
+      {
+          fprintf(stderr,"Name '%s' undeclared\n",$4);
+          //exit(1);
+      }
+    gencode(CODE,CALL_PRINT,id,NULL,NULL);
     }
 
   | PRINTTEXT '(' '$'  STRING  '$' ')'
@@ -88,6 +104,8 @@ expr_e:
   | expr_t PLUS expr_e
     {
       printf("Addition\n");
+      $$.ptr = newtemp(SYMTAB);
+      gencode(CODE,BOP_PLUS,$$.ptr,$1.ptr,$3.ptr);
     }
   ;
 
@@ -100,6 +118,8 @@ expr_t:
   | expr_t FOIS expr_f
     {
       printf("Multiplication\n");
+      $$.ptr = newtemp(SYMTAB);
+      gencode(CODE,BOP_MULT,$$.ptr,$1.ptr,$3.ptr);
     }
 
 
@@ -115,6 +135,15 @@ expr_f:
     }
 
   | ID
+    { 
+      struct symbol * id = symtable_get(SYMTAB,$1);
+      if ( id == NULL )
+      {
+          fprintf(stderr,"Name '%s' undeclared\n",$1);
+          exit(1);
+      }
+      $$.ptr = id;
+    }
   ;
 
 valeur:

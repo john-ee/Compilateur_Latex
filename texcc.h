@@ -7,6 +7,5 @@
 struct symtable * SYMTAB;
 struct code * CODE;
 
-extern int yyparse();
 extern FILE* yyin;
 
