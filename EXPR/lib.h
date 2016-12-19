@@ -2,12 +2,13 @@
 
 /* TABLE DES SYMBOLES */
 
+typedef char name_t[8];
 
 struct symbol {
   enum { NAME, CONSTANT } kind;
     union {
-        char* name;
-        char* value;
+        name_t name;
+        long int value;
     } u;
 };
 
@@ -20,7 +21,7 @@ struct symtable {
 
 struct symtable * symtable_new();
 
-struct symbol * symtable_const(struct symtable * t, char* v);
+struct symbol * symtable_const(struct symtable * t, long int v);
 
 struct symbol * symtable_get(struct symtable * t, const char * s);
 
