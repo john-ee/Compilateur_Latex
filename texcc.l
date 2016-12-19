@@ -81,23 +81,23 @@ string \"(\\.|[^"])*\"
                     }
 <texsci>{int}       {
                       printf("INT ");
-                      yylval.ivalue = atoi(yytext);
+                      yylval.value = strdup(yytext);
                       return INT;
                     }
 <texsci>{float}     {
                       printf("FLOAT ");
-                      yylval.fvalue = atof(yytext);
+                      yylval.value = strdup(yytext);
                       return FLOAT;
                     }
 <texsci>{bool}      {
                       printf("BOOL ");
                       if(strcmp(yytext, "\\true") == 0)
                         {
-                          yylval.ivalue = 1;
+                          yylval.value = "1";
                         }
                          else
                         {
-                          yylval.ivalue = 0;
+                          yylval.value = "0";
                         }
                       return BOOL;
                     }

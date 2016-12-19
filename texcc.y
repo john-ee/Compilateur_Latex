@@ -10,8 +10,7 @@
   %}
 
 %union {
-  int ivalue;
-  float fvalue;
+  char* value;
   char* name;
   char* string;
   struct {
@@ -22,7 +21,7 @@
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token INPUT OUTPUT LOCAL MBOX
 %token INTEGER BOOLEAN REAL LEFTARROW IN
-%token INT BOOL FLOAT
+%token <value> INT BOOL FLOAT
 %token PLUS FOIS
 %token PRINTINT PRINTTEXT
 %token <string> STRING
@@ -124,9 +123,20 @@ expr_t:
 
 
 expr_f:
-    valeur
+    INT
     {
-      printf("Affectation\n");
+      $$.ptr = symtable_const(SYMTAB, $1);
+    }
+
+  | BOOL
+    {
+      $$.ptr = symtable_const(SYMTAB, $1);
+    }
+
+  | FLOAT
+    {
+      printf("Affectation float\n");
+      $$.ptr = symtable_const(SYMTAB, $1);
     }
 
   | '(' expr_e ')'
@@ -144,15 +154,6 @@ expr_f:
       }
       $$.ptr = id;
     }
-  ;
-
-valeur:
-    INT
-
-  | BOOL
-
-  | FLOAT
-
   ;
 
 
