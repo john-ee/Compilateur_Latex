@@ -9,3 +9,4 @@ struct code * CODE;
 
 extern FILE* yyin;
 
+extern int yyparse();
