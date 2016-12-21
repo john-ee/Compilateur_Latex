@@ -104,7 +104,10 @@ string \"(\\.|[^"])*\"
                       return BOOL;
                     }
 
-<texsci>{string}    { return STRING; }
+<texsci>{string}    {
+                      yylval.string = strdup(yytext);
+                      return STRING; 
+                    }
 
 .                  { }
 

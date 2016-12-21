@@ -8,6 +8,10 @@ int main(int argc, char* argv[]) {
       fprintf(stderr, "[texcc] error: unable to open file %s\n", argv[1]);
       exit(TEXCC_ERROR_GENERAL);
     }
+    if ((out = fopen("out", "w")) == NULL) {
+      fprintf(stderr, "[texcc] error: unable to open file out");
+      exit(TEXCC_ERROR_GENERAL);
+    }
   } else {
     fprintf(stderr, "[texcc] usage: %s input_file\n", argv[0]);
     exit(TEXCC_ERROR_GENERAL);
@@ -21,5 +25,6 @@ int main(int argc, char* argv[]) {
   code_dump(CODE);
   symtable_free(SYMTAB);
   code_free(CODE);
+  fclose(out);
   return EXIT_SUCCESS;
 }

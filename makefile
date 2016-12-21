@@ -1,23 +1,24 @@
 CC = gcc
 LEX = lex
 YACC = yacc -d
+EXEC = texcc
 LDFLAGS = -ly -lfl # Linux: -lfl / OSX: -ll
 CFLAGS=-g
 
-all: texcc
+all: $(EXEC)
 
-texcc: texcc.c y.tab.o lex.yy.o lib.o
-	gcc -o $@ $^ $(LDFLAGS)
+texcc: $(EXEC).c y.tab.o lex.yy.o lib.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 y.tab.o: y.tab.c lib.h
 
-y.tab.c: texcc.y
-	yacc -d $<
+y.tab.c: $(EXEC).y
+	$(YACC) $<
 
 lex.yy.o: lex.yy.c
 
-lex.yy.c: texcc.l y.tab.c
-	lex texcc.l
+lex.yy.c: $(EXEC).l y.tab.c
+	$(LEX) $(EXEC).l
 
 lib.o: CFLAGS+=-Wall -Wextra
 lib.o: lib.c lib.h

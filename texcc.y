@@ -89,7 +89,7 @@ print:
   | PRINTTEXT '(' '$'  STRING  '$' ')'
     {
       printf("affichage d'un string \n");
-
+      print_dump(out, $4);
     }
   |
   ;
