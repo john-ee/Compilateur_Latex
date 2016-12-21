@@ -60,5 +60,5 @@ void code_dump(struct code * c);
 
 void code_free(struct code * c);
 
-
+void print_dump(FILE* out, char * c);
 
