@@ -3,7 +3,7 @@
   #include <stdlib.h>
   #include "texcc.h"
 
- extern void yyerror(const char * s);
+  extern void yyerror(const char * s);
 
   // Functions and global variables provided by Lex.
   int yylex();
@@ -20,8 +20,8 @@
 
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token INPUT OUTPUT LOCAL MBOX
-%token INTEGER BOOLEAN REAL LEFTARROW IN
-%token <value> INT BOOL FLOAT
+%token INTEGER BOOLEAN LEFTARROW IN
+%token <value> INT BOOL
 %token PLUS FOIS
 %token PRINTINT PRINTTEXT
 %token <string> STRING
@@ -81,7 +81,7 @@ print:
       if ( id == NULL )
       {
           fprintf(stderr,"Name '%s' undeclared\n",$4);
-          //exit(1);
+          exit(1);
       }
     gencode(CODE,CALL_PRINT,id,NULL,NULL);
     }
@@ -133,12 +133,6 @@ expr_f:
       $$.ptr = symtable_const(SYMTAB, $1);
     }
 
-  | FLOAT
-    {
-      printf("Affectation float\n");
-      $$.ptr = symtable_const(SYMTAB, $1);
-    }
-
   | '(' expr_e ')'
     {
       printf("Affectation\n");
@@ -175,6 +169,7 @@ liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
     {
       printf("REGLE OUPUT\n");
+      
     }
 
   |
@@ -205,14 +200,15 @@ declaration:
     ID IN type
     {
       printf("REGLE DECLARATION\n");
+      struct symbol * id = symtable_get(SYMTAB,$1);
+      if ( id == NULL )
+          id = symtable_put(SYMTAB,$1);
     }
 
   ;
 
 type:
     INTEGER
-
-  | REAL
 
   | BOOLEAN
 

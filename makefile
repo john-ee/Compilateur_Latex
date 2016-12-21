@@ -1,9 +1,7 @@
 CC = gcc
 LEX = lex
 YACC = yacc -d
-CFLAGS = -O2 -Wall -g
 LDFLAGS = -ly -lfl # Linux: -lfl / OSX: -ll
-CC=gcc
 CFLAGS=-g
 
 all: texcc
