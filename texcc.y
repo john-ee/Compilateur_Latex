@@ -3,15 +3,14 @@
   #include <stdlib.h>
   #include "texcc.h"
 
- extern void yyerror(const char * s);
+  extern void yyerror(const char * s);
 
   // Functions and global variables provided by Lex.
   int yylex();
   %}
 
 %union {
-  int ivalue;
-  float fvalue;
+  char* value;
   char* name;
   char* string;
   struct {
@@ -21,8 +20,8 @@
 
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token INPUT OUTPUT LOCAL MBOX
-%token INTEGER BOOLEAN REAL LEFTARROW IN
-%token INT BOOL FLOAT
+%token INTEGER BOOLEAN LEFTARROW IN
+%token <value> INT BOOL
 %token PLUS FOIS
 %token PRINTINT PRINTTEXT
 %token <string> STRING
@@ -82,7 +81,7 @@ print:
       if ( id == NULL )
       {
           fprintf(stderr,"Name '%s' undeclared\n",$4);
-          //exit(1);
+          exit(1);
       }
     gencode(CODE,CALL_PRINT,id,NULL,NULL);
     }
@@ -124,9 +123,14 @@ expr_t:
 
 
 expr_f:
-    valeur
+    INT
     {
-      printf("Affectation\n");
+      $$.ptr = symtable_const(SYMTAB, $1);
+    }
+
+  | BOOL
+    {
+      $$.ptr = symtable_const(SYMTAB, $1);
     }
 
   | '(' expr_e ')'
@@ -144,15 +148,6 @@ expr_f:
       }
       $$.ptr = id;
     }
-  ;
-
-valeur:
-    INT
-
-  | BOOL
-
-  | FLOAT
-
   ;
 
 
@@ -174,6 +169,7 @@ liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
     {
       printf("REGLE OUPUT\n");
+      
     }
 
   |
@@ -204,14 +200,15 @@ declaration:
     ID IN type
     {
       printf("REGLE DECLARATION\n");
+      struct symbol * id = symtable_get(SYMTAB,$1);
+      if ( id == NULL )
+          id = symtable_put(SYMTAB,$1);
     }
 
   ;
 
 type:
     INTEGER
-
-  | REAL
 
   | BOOLEAN
 

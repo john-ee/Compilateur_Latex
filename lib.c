@@ -60,7 +60,8 @@ struct symbol * symtable_put(struct symtable * t, const char * id)
       symtable_grow(t);
     struct symbol *s = &(t->symbols[t->size]);
     s->kind = NAME;
-    strcpy(s->u.name,id);
+    s->u.name = strdup(id);
+    //strcpy(s->u.name,id);
     ++ (t->size);
     return s;
 }
@@ -123,7 +124,7 @@ void gencode(struct code * c,
 struct symbol *newtemp(struct symtable * t)
 {
   struct symbol * s;
-  char* name = NULL;
+  char name[32];
   sprintf(name,"t%d",t->temporary);
   s = symtable_put(t,name);
   ++ (t->temporary);
