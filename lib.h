@@ -71,5 +71,6 @@ struct message {
 
 struct print_table {
   unsigned int capacity;
+  unsigned int nextquad;
   struct message * messages;
 }
