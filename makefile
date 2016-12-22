@@ -13,8 +13,8 @@ texcc: $(EXEC).c y.tab.o lex.yy.o lib.o
 y.tab.o: y.tab.c lib.h
 
 y.tab.c: $(EXEC).y
-	$(YACC) $<
-
+	$(YACC) $(EXEC).y
+	
 lex.yy.o: lex.yy.c
 
 lex.yy.c: $(EXEC).l y.tab.c
