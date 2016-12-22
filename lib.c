@@ -223,7 +223,7 @@ void print_dump(FILE* out, int compteur)
     int i;
     for (i=0;i<compteur;i++){
         fprintf(out, "  li $v0, 4\n");
-        fprintf(out, "  la $a0, msg%d \n", compteur);
+        fprintf(out, "  la $a0, msg%d \n", i);
         fprintf(out, "  syscall\n");
     }
 }
