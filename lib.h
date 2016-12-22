@@ -62,3 +62,14 @@ void code_free(struct code * c);
 
 void print_dump(FILE* out, char * c);
 
+/* TABLEAU DE PRINT */
+
+struct message {
+  unsigned int id;
+  char * string;
+};
+
+struct print_table {
+  unsigned int capacity;
+  struct message * messages;
+}
