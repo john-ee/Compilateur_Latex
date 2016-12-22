@@ -60,17 +60,6 @@ void code_dump(struct code * c);
 
 void code_free(struct code * c);
 
-void print_dump(FILE* out, char * c);
+int put_print(FILE* out, char * c, int compteur);
 
-/* TABLEAU DE PRINT */
-
-struct message {
-  unsigned int id;
-  char * string;
-};
-
-struct printtable {
-  unsigned int capacity;
-  unsigned int nextprint;
-  struct message * messages;
-}
+void print_dump(FILE* out, int compteur);

@@ -210,18 +210,20 @@ void code_free(struct code * c)
 }
 
 
-void print_dump(FILE* out, char * c)
+int put_print(FILE* out, char * c, int compteur)
 {
-    fprintf(out, ".data\n");
-    fprintf(out, "  msg: .asciiz    %s  \n",c);
-    fprintf(out, ".text\n");
-    fprintf(out, "main:\n");
-    fprintf(out, "  li $v0, 4\n");
-    fprintf(out, "  la $a0, msg \n");
-    fprintf(out, "  syscall\n");
-    fprintf(out, "  li $v0, 10\n");
-    fprintf(out, "  syscall\n");
-
+    fprintf(out," msg%d: .asciiz %s \n", compteur, c);
+    compteur++;
+    return compteur;
 }
 
 
+void print_dump(FILE* out, int compteur)
+{
+    int i;
+    for (i=0;i<compteur;i++){
+        fprintf(out, "  li $v0, 4\n");
+        fprintf(out, "  la $a0, msg%d \n", compteur);
+        fprintf(out, "  syscall\n");
+    }
+}

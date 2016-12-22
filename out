@@ -1,9 +1,9 @@
 .data
-  msg: .asciiz    "hello, world \n"  
+ msg0: .asciiz "hello, world \n" 
 .text
 main:
   li $v0, 4
-  la $a0, msg 
+  la $a0, msg1 
   syscall
-  li $v0, 10
-  syscall
+ li $v0, 10
+ syscall
