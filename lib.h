@@ -69,8 +69,8 @@ struct message {
   char * string;
 };
 
-struct print_table {
+struct printtable {
   unsigned int capacity;
-  unsigned int nextquad;
+  unsigned int nextprint;
   struct message * messages;
 }
