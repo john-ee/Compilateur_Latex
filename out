@@ -1,17 +1,9 @@
 .data
  msg0: .asciiz "hello, world \n" 
- msg1: .asciiz "yo poto \n" 
- msg2: .asciiz "bien ou bien ? \n" 
 .text
 main:
   li $v0, 4
   la $a0, msg0 
-  syscall
-  li $v0, 4
-  la $a0, msg1 
-  syscall
-  li $v0, 4
-  la $a0, msg2 
   syscall
  li $v0, 10
  syscall

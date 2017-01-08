@@ -10,6 +10,7 @@ struct symtable * symtable_new()
     t->capacity = 1024;
     t->symbols = malloc(t->capacity*sizeof(struct symbol));
     t->temporary = 0;
+    t->msg = 0;
     t->size = 0;
     return t;
 }
@@ -181,6 +182,10 @@ static void quad_dump(struct quad * q)
             printf("print ");
             symbol_dump(q->sym1);
             break;
+        case CALL_PRINT_TEXT:
+            printf("print ");
+            symbol_dump(q->sym1);
+            break;
         case COPY:
             symbol_dump(q->sym1);
             printf(" := ");
@@ -189,6 +194,49 @@ static void quad_dump(struct quad * q)
         default:
             printf("BUG\n");
             break;
+    }
+}
+
+static char * symbol_print(struct symbol * s)
+{
+    switch ( s->kind )
+    {
+        case NAME:
+            return s->u.name;
+            break;
+        case CONSTANT:
+            return s->u.value;
+            break;
+        default:
+            return NULL;
+            break;
+    }
+}
+
+static void quad_print(struct quad * q, FILE * out)
+{
+    char * nom1 = NULL;
+    switch ( q->kind )
+    {
+        case CALL_PRINT_TEXT:
+            
+            nom1 = symbol_print(q->sym1);
+            fprintf(out, "  li $v0, 4\n");
+            fprintf(out, "  la $a0, %s \n", nom1);
+            fprintf(out, "  syscall\n");
+            break;
+        default:
+            printf("BUG\n");
+            break;
+    }
+}
+
+void code_print(struct code * c, FILE * out)
+{
+    unsigned int i;
+    for ( i=0 ; i<c->nextquad ; i++ )
+    {
+        quad_print(&(c->quads[i]), out);
     }
 }
 
@@ -210,10 +258,11 @@ void code_free(struct code * c)
 }
 
 
-int put_print(FILE* out, char * c, int compteur)
+int put_print(FILE* out, char * c, int compteur, struct symtable * t)
 {
     fprintf(out," msg%d: .asciiz %s \n", compteur, c);
     compteur++;
+    ++ (t->msg);
     return compteur;
 }
 

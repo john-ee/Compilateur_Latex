@@ -83,13 +83,18 @@ print:
           fprintf(stderr,"Name '%s' undeclared\n",$4);
           exit(1);
       }
-    gencode(CODE,CALL_PRINT,id,NULL,NULL);
+      gencode(CODE,CALL_PRINT,id,NULL,NULL);
     }
 
   | PRINTTEXT '(' '$'  STRING  '$' ')'
     {
       printf("affichage d'un string \n");
-      compteur_print = put_print(out, $4, compteur_print);
+      compteur_print = put_print(out, $4, compteur_print, SYMTAB);
+      char nom[10];
+      sprintf(nom, "msg%d", SYMTAB->msg-1);
+      symtable_put(SYMTAB, nom);
+      struct symbol * id = symtable_get(SYMTAB,nom);
+      gencode(CODE,CALL_PRINT_TEXT,id,NULL,NULL);
     }
   |
   ;

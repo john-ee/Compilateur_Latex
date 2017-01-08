@@ -14,6 +14,7 @@ struct symbol {
 struct symtable {
     unsigned int capacity;
     unsigned int temporary; 
+    unsigned int msg;
     unsigned int size;
     struct symbol * symbols;
 };
@@ -34,7 +35,7 @@ void symtable_free(struct symtable * t);
 /* QUADRUPLETS ET CODE */
 
 struct quad {
-  enum quad_kind { BOP_PLUS, BOP_MINUS, BOP_MULT, UOP_MINUS, COPY, CALL_PRINT } kind;
+  enum quad_kind { BOP_PLUS, BOP_MINUS, BOP_MULT, UOP_MINUS, COPY, CALL_PRINT, CALL_PRINT_TEXT } kind;
   struct symbol * sym1;
   struct symbol * sym2;
   struct symbol * sym3;
@@ -56,10 +57,16 @@ void gencode(struct code * c,
 
 struct symbol *newtemp(struct symtable * t);
 
+static char * symbol_print(struct symbol * s);
+
+static void quad_print(struct quad * q, FILE * out);
+
+void code_print(struct code * c, FILE * out);
+
 void code_dump(struct code * c);
 
 void code_free(struct code * c);
 
-int put_print(FILE* out, char * c, int compteur);
+int put_print(FILE* out, char * c, int compteur, struct symtable * t);
 
 void print_dump(FILE* out, int compteur);
