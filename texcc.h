@@ -9,6 +9,5 @@ struct code * CODE;
 
 extern FILE* yyin;
 FILE* out;
-int compteur_print;
 
 extern int yyparse();

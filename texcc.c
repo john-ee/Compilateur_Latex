@@ -19,20 +19,23 @@ int main(int argc, char* argv[]) {
 
   SYMTAB = symtable_new();
   CODE = code_new();
-  compteur_print = 0;
+
   fprintf(out, ".data\n");
   yyparse();
   fclose(yyin);
   fprintf(out, ".text\n");
   fprintf(out, "main:\n");
   //print_dump(out, compteur_print);
+  
   code_print(CODE,out);
   fprintf(out, " li $v0, 10\n");
   fprintf(out, " syscall\n");
   symtable_dump(SYMTAB);
   code_dump(CODE);
+  
   symtable_free(SYMTAB);
   code_free(CODE);
   fclose(out);
+  
   return EXIT_SUCCESS;
 }

@@ -67,6 +67,6 @@ void code_dump(struct code * c);
 
 void code_free(struct code * c);
 
-int put_print(FILE* out, char * c, int compteur, struct symtable * t);
+void put_print(FILE* out, char * c, struct symtable * t);
 
-void print_dump(FILE* out, int compteur);
+void put_integer_id(FILE * out, char * c);

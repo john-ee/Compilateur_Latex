@@ -89,7 +89,7 @@ print:
   | PRINTTEXT '(' '$'  STRING  '$' ')'
     {
       printf("affichage d'un string \n");
-      compteur_print = put_print(out, $4, compteur_print, SYMTAB);
+      put_print(out, $4, SYMTAB);
       char nom[10];
       sprintf(nom, "msg%d", SYMTAB->msg-1);
       symtable_put(SYMTAB, nom);
@@ -206,8 +206,10 @@ declaration:
     {
       printf("REGLE DECLARATION\n");
       struct symbol * id = symtable_get(SYMTAB,$1);
-      if ( id == NULL )
-          id = symtable_put(SYMTAB,$1);
+      if ( id == NULL ) {
+        id = symtable_put(SYMTAB,$1);
+        put_integer_id(out, $1);
+      }
     }
 
   ;

@@ -258,21 +258,13 @@ void code_free(struct code * c)
 }
 
 
-int put_print(FILE* out, char * c, int compteur, struct symtable * t)
+void put_print(FILE* out, char * c, struct symtable * t)
 {
-    fprintf(out," msg%d: .asciiz %s \n", compteur, c);
-    compteur++;
+    fprintf(out," msg%d: .asciiz %s \n", t->msg, c);
     ++ (t->msg);
-    return compteur;
 }
 
-
-void print_dump(FILE* out, int compteur)
+void put_integer_id(FILE * out, char * c)
 {
-    int i;
-    for (i=0;i<compteur;i++){
-        fprintf(out, "  li $v0, 4\n");
-        fprintf(out, "  la $a0, msg%d \n", i);
-        fprintf(out, "  syscall\n");
-    }
+    fprintf(out, " %s: .word 0\n", c);
 }
