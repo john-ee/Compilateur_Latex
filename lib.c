@@ -273,6 +273,42 @@ static void quad_print(struct quad * q, FILE * out)
                     fprintf(out, "  sub %s, %s, $t1\n", nom1, nom2);
                 else if (nom3[0]=='$')
                     fprintf(out, "  sub %s, $t0, %s\n", nom1, nom3);
+}
+            break;
+
+        case BOP_MULT:
+            nom1 = symbol_print(q->sym1);
+            nom2 = symbol_print(q->sym2);
+            nom3 = symbol_print(q->sym3);
+
+            if (q->sym2->kind == CONSTANT)
+                fprintf(out, "  li $t0, %s\n", nom2);
+            else if (nom2[0] != '$')
+                fprintf(out, "  lw $t0, %s\n", nom2);
+
+            if (q->sym3->kind == CONSTANT)
+                fprintf(out, "  li $t1, %s\n", nom3);
+            else if (nom3[0] != '$')
+                fprintf(out, "  lw $t1, %s\n", nom3);
+
+            if (nom2[0] != '$' && nom3[0] != '$')
+                fprintf(out, "  mult $t0, $t1\n");
+
+            else{
+                if (nom2[0]=='$' && nom3[0]=='$')
+                    fprintf(out, "  mult %s, %s\n", nom2, nom3);
+                else if (nom2[0]=='$')
+                    fprintf(out, "  mult %s, $t1\n", nom2);
+                else if (nom3[0]=='$')
+                    fprintf(out, "  mult $t0, %s\n", nom3);
+            }
+
+            if (nom1[0] == '$')
+                fprintf(out, "  mflo %s\n", nom1);
+            else
+            {
+                fprintf(out, "  mflo $t0\n");
+                fprintf(out, "  sw $t0 %s\n", nom1);
             }
             break;
 

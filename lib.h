@@ -35,7 +35,7 @@ void symtable_free(struct symtable * t);
 /* QUADRUPLETS ET CODE */
 
 struct quad {
-  enum quad_kind { BOP_PLUS, BOP_MINUS, BOP_MULT, UOP_MINUS, COPY, CALL_PRINT, CALL_PRINT_TEXT } kind;
+  enum quad_kind { BOP_PLUS, BOP_MINUS, BOP_MULT, UOP_MINUS, BOP_DIV, COPY, CALL_PRINT, CALL_PRINT_TEXT } kind;
   struct symbol * sym1;
   struct symbol * sym2;
   struct symbol * sym3;

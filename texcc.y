@@ -133,7 +133,6 @@ expr_t:
       gencode(CODE,BOP_MULT,$$.ptr,$1.ptr,$3.ptr);
     }
 
-
 expr_f:
     INT
     {
