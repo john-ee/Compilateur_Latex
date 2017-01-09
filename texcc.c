@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
   fclose(yyin);
   fprintf(out, ".text\n");
   fprintf(out, "main:\n");
-  //print_dump(out, compteur_print);
   
   code_print(CODE,out);
   fprintf(out, " li $v0, 10\n");
