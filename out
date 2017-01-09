@@ -13,7 +13,7 @@ main:
   li $t1, 2
   sub $t2, $t0, $t1
   lw $t0, a
-  sub $t3, $t2, $t0
+  sub $t3, $t0, $t2
   sw $t3, c
   li $v0, 1
   lw $a0, c

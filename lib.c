@@ -244,7 +244,7 @@ static void quad_print(struct quad * q, FILE * out)
                 else if (nom2[0]=='$')
                     fprintf(out, "  add %s, %s, $t1\n", nom1, nom2);
                 else if (nom3[0]=='$')
-                    fprintf(out, "  add %s, %s, $t0\n", nom1, nom3);
+                    fprintf(out, "  add %s, $t0, %s\n", nom1, nom3);
             }
             break;
 
@@ -272,7 +272,7 @@ static void quad_print(struct quad * q, FILE * out)
                 else if (nom2[0]=='$')
                     fprintf(out, "  sub %s, %s, $t1\n", nom1, nom2);
                 else if (nom3[0]=='$')
-                    fprintf(out, "  sub %s, %s, $t0\n", nom1, nom3);
+                    fprintf(out, "  sub %s, $t0, %s\n", nom1, nom3);
             }
             break;
 
