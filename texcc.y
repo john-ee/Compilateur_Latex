@@ -22,7 +22,7 @@
 %token INPUT OUTPUT LOCAL MBOX
 %token INTEGER BOOLEAN LEFTARROW IN
 %token <value> INT BOOL
-%token PLUS FOIS
+%token PLUS FOIS MINUS
 %token PRINTINT PRINTTEXT
 %token <string> STRING
 %token <name> ID 
@@ -110,6 +110,13 @@ expr_e:
       printf("Addition\n");
       $$.ptr = newtemp(SYMTAB);
       gencode(CODE,BOP_PLUS,$$.ptr,$1.ptr,$3.ptr);
+    }
+
+  | expr_t MINUS expr_e
+    {
+      printf("Soustraction\n");
+      $$.ptr = newtemp(SYMTAB);
+      gencode(CODE,BOP_MINUS,$$.ptr,$1.ptr,$3.ptr);
     }
   ;
 

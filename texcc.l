@@ -71,6 +71,8 @@ string \"(\\.|[^"])*\"
 
 <texsci>[+]        { return PLUS; }
 
+<texsci>[-]        { return MINUS; }
+
 <texsci>[*]        { return FOIS; }
 
 <texsci>{mbox}     { return MBOX; }

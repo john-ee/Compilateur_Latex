@@ -9,7 +9,7 @@ struct symtable * symtable_new()
     struct symtable * t = malloc(sizeof(struct symtable));
     t->capacity = 1024;
     t->symbols = malloc(t->capacity*sizeof(struct symbol));
-    t->temporary = 0;
+    t->temporary = 2;
     t->msg = 0;
     t->size = 0;
     return t;
@@ -126,7 +126,7 @@ struct symbol *newtemp(struct symtable * t)
 {
   struct symbol * s;
   char name[32];
-  sprintf(name,"t%d",t->temporary);
+  sprintf(name,"$t%d",t->temporary);
   s = symtable_put(t,name);
   ++ (t->temporary);
   return s;
@@ -216,10 +216,86 @@ static char * symbol_print(struct symbol * s)
 static void quad_print(struct quad * q, FILE * out)
 {
     char * nom1 = NULL;
+    char * nom2 = NULL;
+    char * nom3 = NULL;
     switch ( q->kind )
     {
+        case BOP_PLUS:
+            nom1 = symbol_print(q->sym1);
+            nom2 = symbol_print(q->sym2);
+            nom3 = symbol_print(q->sym3);
+
+            if (q->sym2->kind == CONSTANT)
+                fprintf(out, "  li $t0, %s\n", nom2);
+            else if (nom2[0] != '$')
+                fprintf(out, "  lw $t0, %s\n", nom2);
+
+            if (q->sym3->kind == CONSTANT)
+                fprintf(out, "  li $t1, %s\n", nom3);
+            else if (nom3[0] != '$')
+                fprintf(out, "  lw $t1, %s\n", nom3);
+
+            if (nom2[0] != '$' && nom3[0] != '$')
+                fprintf(out, "  add %s, $t0, $t1\n", nom1);
+
+            else{
+                if (nom2[0]=='$' && nom3[0]=='$')
+                    fprintf(out, "  add %s, %s, %s\n", nom1, nom2, nom3);
+                else if (nom2[0]=='$')
+                    fprintf(out, "  add %s, %s, $t1\n", nom1, nom2);
+                else if (nom3[0]=='$')
+                    fprintf(out, "  add %s, %s, $t0\n", nom1, nom3);
+            }
+            break;
+
+        case BOP_MINUS:
+            nom1 = symbol_print(q->sym1);
+            nom2 = symbol_print(q->sym2);
+            nom3 = symbol_print(q->sym3);
+
+            if (q->sym2->kind == CONSTANT)
+                fprintf(out, "  li $t0, %s\n", nom2);
+            else if (nom2[0] != '$')
+                fprintf(out, "  lw $t0, %s\n", nom2);
+
+            if (q->sym3->kind == CONSTANT)
+                fprintf(out, "  li $t1, %s\n", nom3);
+            else if (nom3[0] != '$')
+                fprintf(out, "  lw $t1, %s\n", nom3);
+
+            if (nom2[0] != '$' && nom3[0] != '$')
+                fprintf(out, "  sub %s, $t0, $t1\n", nom1);
+
+            else{
+                if (nom2[0]=='$' && nom3[0]=='$')
+                    fprintf(out, "  sub %s, %s, %s\n", nom1, nom2, nom3);
+                else if (nom2[0]=='$')
+                    fprintf(out, "  sub %s, %s, $t1\n", nom1, nom2);
+                else if (nom3[0]=='$')
+                    fprintf(out, "  sub %s, %s, $t0\n", nom1, nom3);
+            }
+            break;
+
+        case COPY:
+            nom1 = symbol_print(q->sym1);
+            nom2 = symbol_print(q->sym2);
+            if (nom2[0] == '$')
+                fprintf(out, "  sw %s, %s\n", nom2, nom1);
+            else {
+                fprintf(out, "  li $t0, %s\n", nom2);
+                fprintf(out, "  sw $t0, %s\n", nom1);
+            }
+            break;
+        case CALL_PRINT:
+            nom1 = symbol_print(q->sym1);
+            fprintf(out, "  li $v0, 1\n");
+            fprintf(out, "  lw $a0, %s\n", nom1);
+            fprintf(out, "  syscall\n");
+            fprintf(out, "  li $v0, 4\n");
+            fprintf(out, "  la $a0, msg \n");
+            fprintf(out, "  syscall\n");
+            break;
         case CALL_PRINT_TEXT:
-            
             nom1 = symbol_print(q->sym1);
             fprintf(out, "  li $v0, 4\n");
             fprintf(out, "  la $a0, %s \n", nom1);

@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
   CODE = code_new();
 
   fprintf(out, ".data\n");
+  fprintf(out, " msg: .asciiz \"\\n\" \n");
   yyparse();
   fclose(yyin);
   fprintf(out, ".text\n");
