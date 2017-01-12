@@ -18,6 +18,7 @@ mbox      "\\mbox"
 
 integer   "\\Integer"
 boolean   "\\Boolean"
+emptyset  "\\emptyset"
 
 leftarrow "\\leftarrow"
 in        "\\in"
@@ -48,6 +49,7 @@ string \"(\\.|[^"])*\"
 
 <texsci>[{}]        { return yytext[0]; }
 
+<texsci>[()]        { return yytext[0]; }
 
 [\n]                { }
 [ ]                { }
@@ -61,6 +63,8 @@ string \"(\\.|[^"])*\"
 <texsci>{integer}   { return INTEGER; }
 
 <texsci>{boolean}   { return BOOLEAN; }
+
+<texsci>{emptyset}   { return EMPTY; }
 
 <texsci>{leftarrow} { return LEFTARROW; }
 
@@ -110,7 +114,7 @@ string \"(\\.|[^"])*\"
                       return STRING; 
                     }
 
-<texsci>.        { fprintf(stderr, "line %d: lexical error \n",yylineno); exit(1);}
+<texsci>.        { fprintf(stderr, "line %d: lexical error [%s] \n",yylineno,yytext); exit(1);}
 .                  { }
 
 %%

@@ -20,7 +20,7 @@
 }
 %left FOIS
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
-%token INPUT OUTPUT LOCAL MBOX
+%token INPUT OUTPUT LOCAL MBOX EMPTY
 %token INTEGER BOOLEAN LEFTARROW IN
 %token <value> INT BOOL
 %token PLUS FOIS MINUS
@@ -143,16 +143,19 @@ declarations:
 
 liste_input:
     INPUT '{' '$' liste_declarations '$' '}'
+  | INPUT '{' '$' EMPTY '$' '}'
   |
   ;
 
 liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
+  | OUTPUT '{' '$' EMPTY '$' '}'
   |
   ;
 
 liste_local:
     LOCAL '{' '$' liste_declarations '$' '}'
+  | LOCAL '{' '$' EMPTY '$' '}'
   |
   ;
 
