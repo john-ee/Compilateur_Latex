@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
       fprintf(stderr, "[texcc] error: unable to open file %s\n", argv[1]);
       exit(TEXCC_ERROR_GENERAL);
     }
-    if ((out = fopen("out", "w")) == NULL) {
+    if ((out = fopen("output.s", "w")) == NULL) {
       fprintf(stderr, "[texcc] error: unable to open file out");
       exit(TEXCC_ERROR_GENERAL);
     }

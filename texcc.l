@@ -44,28 +44,27 @@ string \"(\\.|[^"])*\"
                       return TEXSCI_END;
                     }
 
-<texsci>{blankline} { printf("BLANKLINE"); return BLANKLINE; }
+<texsci>{blankline} { return BLANKLINE; }
 
 <texsci>[{}]        { return yytext[0]; }
 
-<texsci>[()]        { return yytext[0]; }
 
 [\n]                { }
 [ ]                { }
 
-<texsci>{input}     { printf("INPUT");  return INPUT; }
+<texsci>{input}     { return INPUT; }
 
-<texsci>{output}    { printf("OUTPUT");  return OUTPUT; }
+<texsci>{output}    { return OUTPUT; }
 
-<texsci>{local}     { printf("LOCAL"); return LOCAL; }
+<texsci>{local}     { return LOCAL; }
 
-<texsci>{integer}   { printf("INTEGER");  return INTEGER; }
+<texsci>{integer}   { return INTEGER; }
 
-<texsci>{boolean}   { printf("BOOLEAN");  return BOOLEAN; }
+<texsci>{boolean}   { return BOOLEAN; }
 
-<texsci>{leftarrow} { printf("LEFTARROW"); return LEFTARROW; }
+<texsci>{leftarrow} { return LEFTARROW; }
 
-<texsci>{in}        { printf("IN");  return IN; }
+<texsci>{in}        { return IN; }
 
 <texsci>{dollar}   { return yytext[0]; }
 
@@ -90,13 +89,11 @@ string \"(\\.|[^"])*\"
                     }
 
 <texsci>{int}       {
-                      printf("INT ");
                       yylval.value = strdup(yytext);
                       return INT;
                     }
 
 <texsci>{bool}      {
-                      printf("BOOL ");
                       if(strcmp(yytext, "\\true") == 0)
                         {
                           yylval.value = "1";
@@ -113,7 +110,7 @@ string \"(\\.|[^"])*\"
                       return STRING; 
                     }
 
-<texsci>.        { fprintf(stderr, "line:%d: lexical error \n",yylineno); exit(1);}
+<texsci>.        { fprintf(stderr, "line %d: lexical error \n",yylineno); exit(1);}
 .                  { }
 
 %%

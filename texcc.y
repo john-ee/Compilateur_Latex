@@ -18,7 +18,7 @@
       struct symbol * ptr;
   } exprval;  
 }
-
+%left FOIS
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token INPUT OUTPUT LOCAL MBOX
 %token INTEGER BOOLEAN LEFTARROW IN
@@ -47,20 +47,12 @@ algorithm:
 
 liste_instructions:
     liste_instructions instruction
-    {
-      printf("Liste d'instructions 1\n");
-    }
-
   | instruction
-    {
-      printf("Liste d'instructions 2\n");
-    }
   ;
 
 instruction:
      '$' ID LEFTARROW expr_e '$' RETOUR
     {
-      printf("Affectation expression arithmetique\n");
       struct symbol * id = symtable_get(SYMTAB,$2);
       if ( id == NULL )
       {
@@ -70,17 +62,12 @@ instruction:
       gencode(CODE,COPY,id,$4.ptr,NULL);
     }
   | '$' MBOX '{' print '}' '$' RETOUR
-   {
-      printf("Appel de la fonction d'affichage\n");
-   }
-
   |
   ;
 
 print:
      PRINTINT '(' '$' ID '$' ')'
     {
-      printf("affichage entier \n");
       struct symbol * id = symtable_get(SYMTAB,$4);
       if ( id == NULL )
       {
@@ -92,7 +79,6 @@ print:
 
   | PRINTTEXT '(' '$'  STRING  '$' ')'
     {
-      printf("affichage d'un string \n");
       put_print(out, $4, SYMTAB);
       char nom[10];
       sprintf(nom, "msg%d", SYMTAB->msg-1);
@@ -105,20 +91,14 @@ print:
 
 expr_e:
     expr_t
-    {
-      printf("Expression arithmétique\n");
-    }
-
   | expr_t PLUS expr_e
     {
-      printf("Addition\n");
       $$.ptr = newtemp(SYMTAB);
       gencode(CODE,BOP_PLUS,$$.ptr,$1.ptr,$3.ptr);
     }
 
   | expr_t MINUS expr_e
     {
-      printf("Soustraction\n");
       $$.ptr = newtemp(SYMTAB);
       gencode(CODE,BOP_MINUS,$$.ptr,$1.ptr,$3.ptr);
     }
@@ -126,13 +106,8 @@ expr_e:
 
 expr_t:
     expr_f
-    {
-      printf("Expression arithmétique\n");
-    }
-
   | expr_t FOIS expr_f
     {
-      printf("Multiplication\n");
       $$.ptr = newtemp(SYMTAB);
       gencode(CODE,BOP_MULT,$$.ptr,$1.ptr,$3.ptr);
     }
@@ -146,11 +121,6 @@ expr_f:
   | BOOL
     {
       $$.ptr = symtable_const(SYMTAB, $1);
-    }
-
-  | '(' expr_e ')'
-    {
-      printf("Affectation\n");
     }
 
   | ID
@@ -173,48 +143,27 @@ declarations:
 
 liste_input:
     INPUT '{' '$' liste_declarations '$' '}'
-    {
-      printf("REGLE INPUT\n");
-    }
-
   |
   ;
 
 liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
-    {
-      printf("REGLE OUPUT\n");
-      
-    }
-
   |
   ;
 
 liste_local:
     LOCAL '{' '$' liste_declarations '$' '}'
-    {
-      printf("REGLE LOCAL\n");
-    }
-
   |
   ;
 
 liste_declarations:
     liste_declarations ',' declaration
-    {
-      printf("REGLE LISTE DECLARATION\n");
-    }
-
   | declaration
-    {
-      printf("SECONDE REGLE DECLARATION\n");
-    }
   ;
 
 declaration:
     ID IN type
     {
-      printf("REGLE DECLARATION\n");
       struct symbol * id = symtable_get(SYMTAB,$1);
       if ( id == NULL ) {
         id = symtable_put(SYMTAB,$1);
