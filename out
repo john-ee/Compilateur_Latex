@@ -1,0 +1,4 @@
+.data
+ msg: .asciiz "\n" 
+ d: .word 0
+ b: .word 0

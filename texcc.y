@@ -7,6 +7,7 @@
 
   // Functions and global variables provided by Lex.
   int yylex();
+  extern int yylineno;
   %}
 
 %union {
@@ -62,7 +63,10 @@ instruction:
       printf("Affectation expression arithmetique\n");
       struct symbol * id = symtable_get(SYMTAB,$2);
       if ( id == NULL )
-          id = symtable_put(SYMTAB,$2);
+      {
+        fprintf(stderr, "line %d: semantic error \n", yylineno);
+        exit(3);
+      }
       gencode(CODE,COPY,id,$4.ptr,NULL);
     }
   | '$' MBOX '{' print '}' '$' RETOUR
@@ -80,8 +84,8 @@ print:
       struct symbol * id = symtable_get(SYMTAB,$4);
       if ( id == NULL )
       {
-          fprintf(stderr,"Name '%s' undeclared\n",$4);
-          exit(1);
+        fprintf(stderr, "line %d: semantic error \n", yylineno);
+        exit(3);
       }
       gencode(CODE,CALL_PRINT,id,NULL,NULL);
     }
@@ -154,8 +158,8 @@ expr_f:
       struct symbol * id = symtable_get(SYMTAB,$1);
       if ( id == NULL )
       {
-          fprintf(stderr,"Name '%s' undeclared\n",$1);
-          exit(1);
+        fprintf(stderr, "line %d: semantic error \n", yylineno);
+        exit(3);
       }
       $$.ptr = id;
     }
@@ -216,6 +220,11 @@ declaration:
         id = symtable_put(SYMTAB,$1);
         put_integer_id(out, $1);
       }
+      else
+      {
+        fprintf(stderr, "line %d: semantic error \n", yylineno);
+        exit(3);
+      }
     }
 
   ;
@@ -231,5 +240,10 @@ type:
 %%
 void yyerror(const char * s)
 {
-    fprintf(stderr,"%s\n",s);
+  char error[] = "syntax error";
+  fprintf(stderr, "line %d: %s \n", yylineno, s);
+  if(strcmp (error,s) == 0)
+    exit(2);
+  else
+    exit(4);
 }

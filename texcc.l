@@ -6,6 +6,7 @@
 %}
 
 %s texsci
+%option yylineno
 
 begin     "\\begin{texsci}"
 end       "\\end{texsci}"
@@ -50,6 +51,7 @@ string \"(\\.|[^"])*\"
 <texsci>[()]        { return yytext[0]; }
 
 [\n]                { }
+[ ]                { }
 
 <texsci>{input}     { printf("INPUT");  return INPUT; }
 
@@ -111,6 +113,7 @@ string \"(\\.|[^"])*\"
                       return STRING; 
                     }
 
+<texsci>.        { fprintf(stderr, "line:%d: lexical error \n",yylineno); exit(1);}
 .                  { }
 
 %%
