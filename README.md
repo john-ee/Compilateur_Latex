@@ -39,7 +39,7 @@ exemple :
 ```
 ##A LIRE AVANT D'EXECUTER  
 
-**Attention** il se peut que le fichier **texcc.c** s'efface à la suite de la commande make, pour résoudre le problème il faut faire un ctrl+z sur ce fichier et retenter la compilation 
+**Attention** il se peut que le fichier **texcc.c** s'efface à la suite de la commande **make**, pour éviter le problème il faut d'abord ouvrir le fichier texcc.c en prévision d'un ctrl+z sur celui-ci avant de retenter la compilation 
 
 **Erreur** de compilation dans le mips quand les variables b,j sont utilisées 
 
