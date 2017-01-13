@@ -27,7 +27,7 @@ make all
 ```
 pour lancer le programme faire : 
 
-./texcc <chemin_du_fichier_à_executer>
+./texcc chemin_du_fichier_à_executer
 
 exemple : 
 ```
