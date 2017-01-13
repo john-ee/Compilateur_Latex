@@ -21,7 +21,7 @@
 %left FOIS
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
 %token CONSTANTE INPUT OUTPUT GLOBAL LOCAL MBOX EMPTY
-%token INTEGER BOOLEAN LEFTARROW IN
+%token INTEGER BOOLEAN LEFTARROW IN EGAL
 %token <value> INT BOOL
 %token PLUS FOIS MINUS
 %token PRINTINT PRINTTEXT
@@ -142,7 +142,7 @@ declarations:
   ;
 
 liste_constant:
-    CONSTANTE '{' '$' liste_declarations '$' '}'
+    CONSTANTE '{' '$' liste_declarations_constantes '$' '}'
   | CONSTANTE '{' '$' EMPTY '$' '}'
   |
   ;
@@ -176,6 +176,11 @@ liste_declarations:
   | declaration
   ;
 
+liste_declarations_constantes:
+    liste_declarations_constantes ',' declaration_constante
+  | declaration_constante
+  ;
+
 declaration:
     ID IN type
     {
@@ -190,9 +195,22 @@ declaration:
         exit(3);
       }
     }
-
   ;
 
+declaration_constante:
+    ID EGAL INT IN type
+    {
+      struct symbol * id = symtable_get(SYMTAB,$1);
+      if ( id == NULL ) {
+        id = symtable_put(SYMTAB,$1);
+        put_integer_id_constant(out, $1, $3);
+      }
+      else
+      {
+        fprintf(stderr, "line %d: semantic error \n", yylineno);
+        exit(3);
+      }
+    }
 type:
     INTEGER
 

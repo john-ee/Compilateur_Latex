@@ -70,3 +70,5 @@ void code_free(struct code * c);
 void put_print(FILE* out, char * c, struct symtable * t);
 
 void put_integer_id(FILE * out, char * c);
+
+void put_integer_id_constant(FILE * out, char * c, char * v);

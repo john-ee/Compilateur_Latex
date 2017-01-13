@@ -23,6 +23,7 @@ boolean   "\\Boolean"
 emptyset  "\\emptyset"
 
 leftarrow "\\leftarrow"
+egal      "="
 in        "\\in"
 
 printint "printInt"
@@ -73,6 +74,8 @@ string \"(\\.|[^"])*\"
 <texsci>{emptyset}   { return EMPTY; }
 
 <texsci>{leftarrow} { return LEFTARROW; }
+
+<texsci>{egal}      { return EGAL; }
 
 <texsci>{in}        { return IN; }
 

@@ -380,3 +380,9 @@ void put_integer_id(FILE * out, char * c)
 {
     fprintf(out, " %s: .word 0\n", c);
 }
+
+
+void put_integer_id_constant(FILE * out, char * c, char * v)
+{
+    fprintf(out, " %s: .word %s\n", c, v);
+}
