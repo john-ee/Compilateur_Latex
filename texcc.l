@@ -11,8 +11,10 @@
 begin     "\\begin{texsci}"
 end       "\\end{texsci}"
 blankline "\\BlankLine"
+constant  "\\Constant"
 input     "\\Input"
 output    "\\Output"
+global    "\\Global"
 local     "\\Local"
 mbox      "\\mbox"
 
@@ -52,11 +54,15 @@ string \"(\\.|[^"])*\"
 <texsci>[()]        { return yytext[0]; }
 
 [\n]                { }
-[ ]                { }
+[ ]                 { }
+
+<texsci>{constant}  { return CONSTANTE; }
 
 <texsci>{input}     { return INPUT; }
 
 <texsci>{output}    { return OUTPUT; }
+
+<texsci>{global}    { return GLOBAL; }
 
 <texsci>{local}     { return LOCAL; }
 

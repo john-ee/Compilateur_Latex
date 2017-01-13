@@ -8,6 +8,8 @@
 
 	- Gestion des expressions arithmétiques (addition, soustraction, multiplication)
 
+	- Retour de messages d'erreurs différents selon le type (syntaxe, lexicale, sémantique, autre)
+
 
 ##Fonctionnalités non disponibles
 

@@ -20,7 +20,7 @@
 }
 %left FOIS
 %token TEXSCI_BEGIN TEXSCI_END BLANKLINE RETOUR
-%token INPUT OUTPUT LOCAL MBOX EMPTY
+%token CONSTANTE INPUT OUTPUT GLOBAL LOCAL MBOX EMPTY
 %token INTEGER BOOLEAN LEFTARROW IN
 %token <value> INT BOOL
 %token PLUS FOIS MINUS
@@ -138,7 +138,13 @@ expr_f:
 
 
 declarations:
-    liste_input liste_output liste_local
+   liste_constant liste_input liste_output liste_global liste_local
+  ;
+
+liste_constant:
+    CONSTANTE '{' '$' liste_declarations '$' '}'
+  | CONSTANTE '{' '$' EMPTY '$' '}'
+  |
   ;
 
 liste_input:
@@ -150,6 +156,12 @@ liste_input:
 liste_output:
     OUTPUT '{' '$' liste_declarations '$' '}'
   | OUTPUT '{' '$' EMPTY '$' '}'
+  |
+  ;
+
+liste_global:
+    GLOBAL '{' '$' liste_declarations '$' '}'
+  | GLOBAL '{' '$' EMPTY '$' '}'
   |
   ;
 
