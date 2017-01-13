@@ -29,12 +29,18 @@ make all
 ```
 pour lancer le programme faire : 
 
+```
 ./texcc chemin_du_fichier_à_executer
+```
 
 exemple : 
 ```
 ./texcc texsci_exemples/tex/05_arithmetic_simple.tex
 ```
-##Bug 
+##A LIRE AVANT D'EXECUTER  
 
 **Attention** il se peut que le fichier **texcc.c** s'efface à la suite de la commande make, pour résoudre le problème il faut faire un ctrl+z sur ce fichier et retenter la compilation 
+
+**Erreur** de compilation dans le mips quand les variables b,j sont utilisées 
+
+Respecter l'ordre des déclarations pour éviter les erreurs (toujours Constant, input, output, global, local) 
