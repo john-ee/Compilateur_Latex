@@ -25,6 +25,7 @@ emptyset  "\\emptyset"
 leftarrow "\\leftarrow"
 egal      "="
 in        "\\in"
+fois      "\\times"
 
 printint "printInt"
 printtext "printText"
@@ -87,7 +88,7 @@ string \"(\\.|[^"])*\"
 
 <texsci>[-]        { return MINUS; }
 
-<texsci>[*]        { return FOIS; }
+<texsci>{fois}     { return FOIS; }
 
 <texsci>{mbox}     { return MBOX; }
 

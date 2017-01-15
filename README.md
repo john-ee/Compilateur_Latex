@@ -37,6 +37,15 @@ exemple :
 ```
 ./texcc texsci_exemples/tex/05_arithmetic_simple.tex
 ```
+
+
+pour lancer le mips :
+
+```
+spim -file output.s
+```
+
+
 ##A LIRE AVANT D'EXECUTER  
 
 **Attention** il se peut que le fichier **texcc.c** s'efface à la suite de la commande **make**, pour éviter le problème il faut d'abord ouvrir le fichier texcc.c en prévision d'un ctrl+z sur celui-ci avant de retenter la compilation 
